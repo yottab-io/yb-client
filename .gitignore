@@ -2,3 +2,4 @@ __pycache__
 venv
 Yottab_CLI.egg-info
 trash
+config.txt
