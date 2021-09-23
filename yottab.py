@@ -1,3 +1,4 @@
+from click.decorators import pass_context
 from file import FileManagment
 import click
 import api
@@ -51,68 +52,105 @@ def logout(user, password):
 #*****************WORKSPACE****************
 
 @cli.group()
-def workspace():
-  """ctx.ensure_object(dict)
+@click.pass_context
+def workspace(ctx):
+  ctx.ensure_object(dict)
   fileM  = FileManagment()
   data = fileM.readFile()
-  print('dataaaaaaaaaa',data)
-  print('data.cookie', data['cookies'])
   ctx.obj['cookies'] = data['cookies']
-  ctx.obj['user'] = data['user']"""
-  pass
+  ctx.obj['user'] = data['user']
 
 
 @workspace.command()
 @click.argument('name')
 @click.argument('plan')
-def create(name, plan):
+@click.pass_context
+def create(ctx, name, plan):
   #result = api.createWorkspace(ctx.obj['cookies'], ctx.obj['user'], name, plan)
-  click.echo('create workspace: name=%s plan=%s' % ( name, plan))
+  click.echo('create workspace: cookies=%s user=%s name=%s plan=%s' % (ctx.obj['cookies'], ctx.obj['user'], name, plan))
 
 @workspace.command()
-def list():
-  click.echo('list workspace')
+@click.pass_context
+def list(ctx):
+  #result = api.workspaceList(ctx.obj['cookies'], ctx.obj['user'])
+  click.echo('list workspace: cookie=%s user=%s' % (ctx.obj['cookies'], ctx.obj['user']))
 
 @workspace.command()
-def detail():
-  click.echo('workspace detail')
+@click.argument('workspace')
+@click.pass_context
+def detail(ctx, workspace):
+  #result = api.workspaceDetail(ctx.obj['cookies'], ctx.obj['user'], workspace)
+  click.echo('workspace detail: cookie=%s user=%s workspace=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace))
 
 @workspace.command()
-def restart():
-  click.echo('restart workspace')
+@click.argument('workspace')
+@click.pass_context
+def restart(ctx, workspace):
+  #result = api.restartWorkspace(ctx.obj['cookies'], ctx.obj['user'], workspace)
+  click.echo('restart workspace: cookie=%s user=%s workspace=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace))
 
 @workspace.command()
-def delete():
-  click.echo('delete workspace')
+@click.argument('workspace')
+@click.pass_context
+def delete(ctx, workspace):
+  #result = api.deleteWorkspace(ctx.obj['cookies'], ctx.obj['user'], workspace)
+  click.echo('delete workspace: cookie=%s user=%s workspace=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace))
 
 @workspace.command()
-def update():
-  click.echo('update workspace')
+@click.argument('workspace')
+@click.pass_context
+def update(ctx, workspace):
+  #result = api.deleteWorkspace(ctx.obj['cookies'], ctx.obj['user'], workspace)
+  click.echo('update workspace: cookie=%s user=%s workspace=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace))
 
 #****************************APP**********************
 @cli.group()
-def app():
-  pass
+@click.pass_context
+def app(ctx):
+  ctx.ensure_object(dict)
+  fileM  = FileManagment()
+  data = fileM.readFile()
+  ctx.obj['cookies'] = data['cookies']
+  ctx.obj['user'] = data['user']
 
 @app.command()
-def create():
-  click.echo('create')
+@click.argument('workspace')
+@click.argument('product')
+@click.pass_context
+def create(ctx, workspace, product):
+  #result = api.createApp(ctx.obj['cookies'], ctx.obj['user'], workspace, product)
+  click.echo('create app: cookie=%s user=%s workspace=%s product=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace, product))
 
 @app.command()
-def start():
-  click.echo('start app')
+@click.argument('workspace')
+@click.argument('appid')
+@click.pass_context
+def start(ctx, workspace, appid):
+  #result = api.startApp(ctx.obj['cookies'], ctx.obj['user'], workspace, appid)
+  click.echo('start app: cookie=%s user=%s workspace=%s appid=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace, appid))
 
 @app.command()
-def stop():
-  click.echo('stop app')
+@click.argument('workspace')
+@click.argument('appid')
+@click.pass_context
+def stop(ctx, workspace, appid):
+  #result = api.stopApp(ctx.obj['cookies'], ctx.obj['user'], workspace, appid)
+  click.echo('stop app: cookie=%s user=%s workspace=%s appid=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace, appid))
 
 @app.command()
-def delete():
-  click.echo('delete app')
+@click.argument('workspace')
+@click.argument('appid')
+@click.pass_context
+def delete(ctx, workspace, appid):
+  #result = api.deleteApp(ctx.obj['cookies'], ctx.obj['user'], workspace, appid)
+  click.echo('delete app: cookie=%s user=%s workspace=%s appid=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace, appid))
 
 @app.command()
-def deleteServer():
-  click.echo('delete server')
+@click.argument('workspace')
+@click.pass_context
+def deleteServer(ctx, workspace):
+  #result = api.deleteServer(ctx.obj['cookies'], ctx.obj['user'], workspace)
+  click.echo('delete server: cookie=%s user=%s workspace=%s' % (ctx.obj['cookies'], ctx.obj['user'], workspace))
 
 if __name__=='__main__':
   cli()
