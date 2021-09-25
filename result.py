@@ -2,13 +2,30 @@ import json
 
 class result :
   def __init__(self, result):
-    self.statusCode = result.status_code
     if result.ok:
-      self.status = 'Done'
-      self.detail = result.content
+      jsonResult = result.json()
+      print(jsonResult)
+      self.statusCode = jsonResult['code']
+      self.msg = jsonResult['msg']
+      try :
+        self.data = jsonResult['data']
+      except:
+        pass
+        
+      self.ok = True
     else:
-      self.status = 'Error'
-      self.detail = result.reason
-  def json(self):
-    json.dump(self)
+      print(result.reason)
+      self.statusCode = result.status_code
+      self.msg = result.reason
+      self.ok = False
+  def getData(self):
+    return self.data
+  def getStatusCode(self):
+    return self.statusCode
+  def getMsg(self):
+    return self.msg
+  def isOk(self):
+    if self.ok:
+      return 'Ok'
+    return 'Err'
   

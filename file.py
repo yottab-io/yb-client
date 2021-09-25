@@ -1,3 +1,8 @@
+import os
+import ast
+from requests import NullHandler
+
+
 class FileManagment:
   def __init__(self):
     try:
@@ -6,9 +11,10 @@ class FileManagment:
     except:
       pass
 
-  def writeFile(self, ybCookie, user):
+  def writeFile(self, token, user):
     file=open('config.txt', 'w')
-    file.write("cookies='%s' \nuser='%s'" % (ybCookie, user))
+    file.write("")
+    file.write("token='%s' \nuser='%s'" % (token, user))
     file.close()
     return 'successful writing'
 
@@ -19,9 +25,15 @@ class FileManagment:
     return 'successful clearing'
 
   def readFile(self):
-    file = open('config.txt', 'r')
-    firstLine = file.readline().rsplit('=')[1]
-    user = file.readline().rsplit('=')[1]
-    cookies =firstLine.rsplit('\n')[0]
-    file.close()
-    return {'cookies':cookies, 'user':user}
+    if os.path.getsize('config.txt') != 0 :
+      file = open('config.txt', 'r')
+      firstLine = file.readline().rsplit('=')[1]
+      user = file.readline().rsplit('=')[1]
+      token =firstLine.rsplit('\n')[0]
+      token = token.rsplit('\'')[1]
+      user = user.rsplit('\'')[1]
+      file.close()
+    else:
+      token = None
+      user = None    
+    return {'token':token, 'user':user}
