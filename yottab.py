@@ -1,7 +1,7 @@
-from click.decorators import pass_context
 from file import FileManagment
 import click
 import api
+import output
 
 @click.group()
 def cli():
@@ -20,27 +20,27 @@ def user(ctx):
 
 
 @user.command()
-@click.argument('user')
-@click.argument('email')
+@click.option('--user', '-u',help='Username.')
+@click.option('--email', '-e', help='Email address.')
 @click.option(
     "--password", prompt=True, hide_input=True,
-    confirmation_prompt=True, help='Account password'
+    confirmation_prompt=True, help='Account password.'
 )
 def register(user, email, password):
   """Register user in Yottab"""
   result = api.register(user, email, password)
-  click.echo('result: %s' % result.isOk())
+  click.echo(output.register(result))
 
 
 
 @user.command()
-@click.argument('user')
+@click.option('--user', '-u',help='Username.')
 @click.option(
     "--password", prompt=True, hide_input=True, help='Account password'
 )
 def login(user, password):
   result = api.login(user, password)
-  click.echo('result: %s' % result)
+  click.echo(output.login(result))
 
 
 
@@ -48,8 +48,11 @@ def login(user, password):
 @user.command()
 @click.pass_context
 def logout(ctx):
+  if not ctx.obj['token']:
+    exception = click.ClickException('You are not logged in.')
+    raise exception
   result = api.logout(ctx.obj['token'])
-  click.echo(result)
+  click.echo(output.logout(result))
 
 #*****************WORKSPACE****************
 
@@ -61,53 +64,56 @@ def workspace(ctx):
   data = fileM.readFile()
   ctx.obj['token'] = data['token']
   ctx.obj['user'] = data['user']
+  if not ctx.obj['token']:
+    exception = click.ClickException('Please login first: yb user login -u <username>')
+    raise exception
 
 
 @workspace.command()
-@click.argument('name')
-@click.argument('plan')
+@click.option('-n', '--name', help='Workspace name.')
+@click.option('-p', '--plan', help='Workspace plan')
 @click.pass_context
 def create(ctx, name, plan):
   result = api.createWorkspace(ctx.obj['token'], ctx.obj['user'], name, plan)
-  click.echo('result: %s' % result.isOk())
-  click.echo('result: %s' % result.getData())
+  click.echo(output.createWorkspace(result))
 
 @workspace.command()
 @click.pass_context
 def list(ctx):
   result = api.workspaceList(ctx.obj['token'], ctx.obj['user'])
-  click.echo('result: %s' % result.getData())
+  click.echo(output.workspaceList(result))
 
 @workspace.command()
-@click.argument('workspace')
+@click.option('-w', '--workspace', help='Workspace name.')
 @click.pass_context
 def detail(ctx, workspace):
   result = api.workspaceDetail(ctx.obj['token'], ctx.obj['user'], workspace)
-  click.echo('result: %s' % result.getData())
+  result = output.workspaceDetail(result)
+  click.echo(result)
 
 @workspace.command()
-@click.argument('workspace')
+@click.option('-w', '--workspace', help='Workspace name.')
 @click.pass_context
 def restart(ctx, workspace):
   result = api.restartWorkspace(ctx.obj['token'], ctx.obj['user'], workspace)
-  click.echo('result: %s' % result.isOk())
+  click.echo(output.restartWorkspace(result))
 
 @workspace.command()
-@click.argument('workspace')
+@click.option('-w', '--workspace', help='Workspace name.')
 @click.pass_context
 def stop(ctx, workspace):
   result = api.stopWorkspace(ctx.obj['token'], ctx.obj['user'], workspace)
-  click.echo('result: %s' % result.isOk())
+  click.echo(output.stopWorkspace(result))
 
 @workspace.command()
-@click.argument('workspace')
+@click.option('-w', '--workspace', help='Workspace name.')
 @click.pass_context
 def delete(ctx, workspace):
   result = api.deleteWorkspace(ctx.obj['token'], ctx.obj['user'], workspace)
-  click.echo('result: %s' % result.isOk())
+  click.echo(output.deleteWorkspace(result))
 
 @workspace.command()
-@click.argument('workspace')
+@click.option('-w', '--workspace', help='Workspace name.')
 @click.pass_context
 def update(ctx, workspace):
   result = api.updateWorkspace(ctx.obj['token'], ctx.obj['user'], workspace)
@@ -122,6 +128,9 @@ def app(ctx):
   data = fileM.readFile()
   ctx.obj['token'] = data['token']
   ctx.obj['user'] = data['user']
+  if not ctx.obj['token']:
+    exception = click.ClickException('Please login first: yb user login -u <username>')
+    raise exception
 
 @app.command()
 @click.argument('workspace')

@@ -1,11 +1,13 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-  name='Yottab CLI',
+  name='YottabCLI',
   version='1.0.0',
   py_modules=['yottab'],
   install_requires=[
-    'Click'
+    'Click',
+    'tabulate',
+    'requests'
   ],
   entry_points='''
     [console_scripts]

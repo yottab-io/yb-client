@@ -1,6 +1,4 @@
 import os
-import ast
-from requests import NullHandler
 
 
 class FileManagment:
