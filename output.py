@@ -58,20 +58,53 @@ def deleteWorkspace(output):
 def updateWorkspace():
   pass
 
-def createApp():
-  pass
+def createApp(output):
+  return output['msg']
 
-def appList():
-  pass
+def appList(output):
+  if(output['type'] == 'table'):
+    message = ''
+    headTable = []
+    optionTable = []
+    optionHeaders = ['option_name', 'option_value']
+    headHeaders = ['name', 'state', 'id', 'product_id']
+    for app in output['data']:
+      headTable = [[app['name'], app['state'], app['id'], app['product_id']]]
+      message = message + tabulate(headTable, headers=headHeaders, tablefmt="pretty", colalign=("right",)) + '\n'
+      optionTable = []
+      for option , value in app['options'].items():
+        optionTable.append([option , value["val"]])
+      message = message + tabulate(optionTable, headers=optionHeaders, tablefmt="pretty",  colalign=("left","left")) + '\n'
+    return message
+  else:
+    return output['msg']
+  
+def startApp(output):
+  return output['msg']
 
-def startApp():
-  pass
+def stopApp(output):
+  return output['msg']
 
-def stopApp():
-  pass
-
-def deleteApp():
-  pass
+def deleteApp(output):
+  return output['msg']
 
 def deleteServer():
   pass
+
+def productList(output):
+  if(output['type'] == 'table'):
+    message = ''
+    headTable = []
+    optionTable = []
+    optionHeaders = ['option_name', 'option_value']
+    headHeaders = ['name', 'id', 'type']
+    for app in output['data']:
+      headTable = [[app['name'], app['id'], app['type']]]
+      message = message + tabulate(headTable, headers=headHeaders, tablefmt="pretty") + '\n'
+      optionTable = []
+      for option , value in app['opt'].items():
+        optionTable.append([option , value["val"]])
+      message = message + tabulate(optionTable, headers=optionHeaders, tablefmt="pretty",  colalign=("left","left")) + '\n'
+    return message
+  else:
+    return output['msg']

@@ -18,6 +18,7 @@ def register(user, email, password):
 
   return {'type': 'msg', 'msg': message}
 
+
 def login(user, password):
   message = ''
   response = request.post(url + '/user/token?format=json', json={'user': user, 'password':password})
@@ -33,6 +34,7 @@ def login(user, password):
     message = 'Request Err: %s %s' % (response.status_code, response.reason) 
 
   return {'type': 'msg', 'msg': message}
+
 
 
 def logout(token):
@@ -51,6 +53,7 @@ def logout(token):
       message='Request Err: %s %s' % (response.status_code, response.reason)
   return {'type': 'msg', 'msg': message}
 
+
 def createWorkspace(token, user, name, plan):
   response = request.post(url + '/server/action/'+ user + '?format=json', json={'name': name, 'plan':plan}, headers={"X-Request-Token": '%s' % token})
   if response.status_code == 200:
@@ -63,6 +66,7 @@ def createWorkspace(token, user, name, plan):
   else:
     message='Request Err: %s %s' % (response.status_code, response.reason)
     return {'type': 'msg', 'msg': message}
+
 
 def workspaceList(token, user):
   response = request.get(url + '/server/action/'+ user + '?format=json' , headers={"X-Request-Token": '%s' % token})
@@ -77,11 +81,13 @@ def workspaceList(token, user):
     message='Request Err: %s %s' % (response.status_code, response.reason)
     return {'type': 'msg', 'msg': message}
 
+
 def mapAppList (apps):
   appList = []
   for app in apps:
     appList.append({'name': app['name'], 'id': app['id']})
   return appList
+
 
 def workspaceDetail(token, user, workspace):
   wResponse = request.get(url + '/server/action/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
@@ -114,6 +120,7 @@ def restartWorkspace(token, user, workspace):
       message='Request Err: %s %s' % (response.status_code, response.reason)
   return {'type': 'msg', 'msg': message}
 
+
 def stopWorkspace(token, user, workspace):
   message = ''
   response = request.post(url + '/server/stop/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
@@ -126,6 +133,7 @@ def stopWorkspace(token, user, workspace):
   else:
       message='Request Err: %s %s' % (response.status_code, response.reason)
   return {'type': 'msg', 'msg': message}
+
 
 def deleteWorkspace(token, user, workspace):  
   message = ''
@@ -140,35 +148,95 @@ def deleteWorkspace(token, user, workspace):
       message='Request Err: %s %s' % (response.status_code, response.reason)
   return {'type': 'msg', 'msg': message}
 
+
 def updateWorkspace(token, user, workspace):
   response = request.post(url + '/server/setting/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
   response = result(response)
   return response
 
+
 def createApp(token, user, workspace, productid, name):
+  message = ''
   response = request.post(url + '/server/app_create/'+ user + '/' + workspace + '?format=json', json={'product_id': productid, 'name':name}, headers={"X-Request-Token": '%s' % token})
-  response = result(response)
-  return response
+  if response.status_code == 200:
+    response = response.json()
+    if response['code'] == 200:
+      message = 'App created successfully.'
+    else:
+      message = 'Creating app Err: %s' % response['msg']
+  else:
+      message='Request Err: %s %s' % (response.status_code, response.reason)
+  return {'type': 'msg', 'msg': message}
+
 
 def appList(token, user, workspace):
   response = request.get(url + '/server/apps/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
-  response = result(response)
-  return response
+  if response.status_code == 200:
+    response = response.json()
+    if response['code'] == 200:
+      return {'type': 'table', 'data': response['data']}
+    else:
+      message = 'Get app list Err: %s' % response['msg']
+      return {'type': 'msg', 'msg': message}
+  else:
+    message='Request Err: %s %s' % (response.status_code, response.reason)
+    return {'type': 'msg', 'msg': message}
+
 
 def startApp(token, user, workspace, app_id):
+  message = ''
   response = request.post(url + '/server/app_start/'+ user + '/' + workspace + '/' + app_id + '?format=json', headers={"X-Request-Token": '%s' % token})
-  response = result(response)
-  return response
+  if response.status_code == 200:
+    response = response.json()
+    if response['code'] == 200:
+      message = 'App started successfully.'
+    else:
+      message = 'Starting app Err: %s' % response['msg']
+  else:
+      message='Request Err: %s %s' % (response.status_code, response.reason)
+  return {'type': 'msg', 'msg': message}
+
 
 def stopApp(token, user, workspace, app_id):
+  message = ''
   response = request.post(url + '/server/app_stop/'+ user + '/' + workspace + '/' + app_id + '?format=json', headers={"X-Request-Token": '%s' % token})
-  response = result(response)
-  return response
+  if response.status_code == 200:
+    response = response.json()
+    if response['code'] == 200:
+      message = 'App stopped successfully.'
+    else:
+      message = 'Stoping app Err: %s' % response['msg']
+  else:
+      message='Request Err: %s %s' % (response.status_code, response.reason)
+  return {'type': 'msg', 'msg': message}
+
 
 def deleteApp(token, user, workspace, app_id):
+  message = ''
   response = request.post(url + '/server/app_delete/'+ user + '/' + workspace + '/' + app_id + '?format=json', headers={"X-Request-Token": '%s' % token})
-  response = result(response)
-  return response
+  if response.status_code == 200:
+    response = response.json()
+    if response['code'] == 200:
+      message = 'App deleted successfully.'
+    else:
+      message = 'Deleting app Err: %s' % response['msg']
+  else:
+      message='Request Err: %s %s' % (response.status_code, response.reason)
+  return {'type': 'msg', 'msg': message}
+
+
+def productList(token, user, workspace):
+  response = request.get(url + '/server/product/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
+  if response.status_code == 200:
+    response = response.json()
+    if response['code'] == 200:
+      return {'type': 'table', 'data': response['data']}
+    else:
+      message = 'Get product list Err: %s' % response['msg']
+      return {'type': 'msg', 'msg': message}
+  else:
+    message='Request Err: %s %s' % (response.status_code, response.reason)
+    return {'type': 'msg', 'msg': message}
 
 def deleteServer(token, user, workspace):
   response = request.post(url + '/server/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})

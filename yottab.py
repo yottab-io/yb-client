@@ -133,51 +133,72 @@ def app(ctx):
     raise exception
 
 @app.command()
-@click.argument('workspace')
-@click.argument('productid')
-@click.argument('name')
+@click.option('-w', '--workspace', help='Workspace name.')
+@click.option('-id','--id', help='Product id.')
+@click.option('-n', '--name', help='App name.')
 @click.pass_context
-def create(ctx, workspace, productid, name):
-  result = api.createApp(ctx.obj['token'], ctx.obj['user'], workspace, productid, name)
-  click.echo('result: %s' % result.isOk())
+def create(ctx, workspace, id, name):
+  result = api.createApp(ctx.obj['token'], ctx.obj['user'], workspace, id, name)
+  click.echo(output.createApp(result))
 
 @app.command()
-@click.argument('workspace')
+@click.option('-w', '--workspace', help='Workspace name.')
 @click.pass_context
 def list(ctx, workspace):
   result = api.appList(ctx.obj['token'], ctx.obj['user'], workspace)
-  click.echo('result: %s' % result.getData())
+  click.echo(output.appList(result))
 
 @app.command()
-@click.argument('workspace')
-@click.argument('appid')
+@click.option('-w', '--workspace', help='Workspace name.')
+@click.option('-id','--id', help='Product id')
 @click.pass_context
-def start(ctx, workspace, appid):
-  result = api.startApp(ctx.obj['token'], ctx.obj['user'], workspace, appid)
-  click.echo('result: %s' % result.isOk())
+def start(ctx, workspace, id):
+  result = api.startApp(ctx.obj['token'], ctx.obj['user'], workspace, id)
+  click.echo(output.startApp(result))
 
 @app.command()
-@click.argument('workspace')
-@click.argument('appid')
+@click.option('-w', '--workspace', help='Workspace name.')
+@click.option('-id','--id', help='Product id')
 @click.pass_context
-def stop(ctx, workspace, appid):
-  result = api.stopApp(ctx.obj['token'], ctx.obj['user'], workspace, appid)
-  click.echo('result: %s' % result.isOk())
+def stop(ctx, workspace, id):
+  result = api.stopApp(ctx.obj['token'], ctx.obj['user'], workspace, id)
+  click.echo(output.stopApp(result))
 
 @app.command()
-@click.argument('workspace')
-@click.argument('appid')
+@click.option('-w', '--workspace', help='Workspace name.')
+@click.option('-id','--id', help='Product id')
 @click.pass_context
-def delete(ctx, workspace, appid):
-  result = api.deleteApp(ctx.obj['token'], ctx.obj['user'], workspace, appid)
-  click.echo('result: %s' % result.isOk())
+def delete(ctx, workspace, id):
+  result = api.deleteApp(ctx.obj['token'], ctx.obj['user'], workspace, id)
+  click.echo(output.deleteApp(result))
 
 @app.command()
-@click.argument('workspace')
+@click.option('-w', '--workspace', help='Workspace name.')
 @click.pass_context
 def deleteServer(ctx, workspace):
   #result = api.deleteServer(ctx.obj['token'], ctx.obj['user'], workspace)
   click.echo('delete server: cookie=%s user=%s workspace=%s' % (ctx.obj['token'], ctx.obj['user'], workspace))
 
+
+#***********************PRODUCT********************
+@cli.group()
+@click.pass_context
+def product(ctx):
+  ctx.ensure_object(dict)
+  fileM  = FileManagment()
+  data = fileM.readFile()
+  ctx.obj['token'] = data['token']
+  ctx.obj['user'] = data['user']
+  if not ctx.obj['token']:
+    exception = click.ClickException('Please login first: yb user login -u <username>')
+    raise exception
+
+@product.command()
+@click.option('-w', '--workspace', help='Workspace name.')
+@click.pass_context
+def list(ctx, workspace):
+  result = api.productList(ctx.obj['token'], ctx.obj['user'], workspace)
+  click.echo(output.productList(result))
+  
 if __name__=='__main__':
   cli()
