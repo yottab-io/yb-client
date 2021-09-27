@@ -134,7 +134,7 @@ def app(ctx):
 
 @app.command()
 @click.option('-w', '--workspace', help='Workspace name.')
-@click.option('-id','--id', help='Product id.')
+@click.option('-id','--product-id', help='Product id.')
 @click.option('-n', '--name', help='App name.')
 @click.pass_context
 def create(ctx, workspace, id, name):
@@ -150,7 +150,7 @@ def list(ctx, workspace):
 
 @app.command()
 @click.option('-w', '--workspace', help='Workspace name.')
-@click.option('-id','--id', help='Product id')
+@click.option('-id','--app-id', help='App id')
 @click.pass_context
 def start(ctx, workspace, id):
   result = api.startApp(ctx.obj['token'], ctx.obj['user'], workspace, id)
@@ -158,7 +158,7 @@ def start(ctx, workspace, id):
 
 @app.command()
 @click.option('-w', '--workspace', help='Workspace name.')
-@click.option('-id','--id', help='Product id')
+@click.option('-id','--app-id', help='App id')
 @click.pass_context
 def stop(ctx, workspace, id):
   result = api.stopApp(ctx.obj['token'], ctx.obj['user'], workspace, id)
@@ -166,7 +166,7 @@ def stop(ctx, workspace, id):
 
 @app.command()
 @click.option('-w', '--workspace', help='Workspace name.')
-@click.option('-id','--id', help='Product id')
+@click.option('-id','--app-id', help='App id')
 @click.pass_context
 def delete(ctx, workspace, id):
   result = api.deleteApp(ctx.obj['token'], ctx.obj['user'], workspace, id)
