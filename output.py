@@ -65,17 +65,10 @@ def appList(output):
   if(output['type'] == 'table'):
     message = ''
     headTable = []
-    optionTable = []
-    optionHeaders = ['option_name', 'option_value']
-    headHeaders = ['name', 'state', 'id', 'product_id']
+    headHeaders = ['name', 'state', 'app_id', 'product_id']
     for app in output['data']:
-      headTable = [[app['name'], app['state'], app['id'], app['product_id']]]
-      message = message + tabulate(headTable, headers=headHeaders, tablefmt="pretty", colalign=("right",)) + '\n'
-      optionTable = []
-      for option , value in app['options'].items():
-        optionTable.append([option , value["val"]])
-      message = message + tabulate(optionTable, headers=optionHeaders, tablefmt="pretty",  colalign=("left","left")) + '\n'
-    return message
+      headTable.append([app['name'], app['state'], app['id'], app['product_id']])
+    return tabulate(headTable, headers=headHeaders, tablefmt="pretty", colalign=("left", "left", "left", "left"))
   else:
     return output['msg']
   
@@ -93,18 +86,10 @@ def deleteServer():
 
 def productList(output):
   if(output['type'] == 'table'):
-    message = ''
     headTable = []
-    optionTable = []
-    optionHeaders = ['option_name', 'option_value']
-    headHeaders = ['name', 'id', 'type']
+    headHeaders = ['name', 'product_id', 'type']
     for app in output['data']:
-      headTable = [[app['name'], app['id'], app['type']]]
-      message = message + tabulate(headTable, headers=headHeaders, tablefmt="pretty") + '\n'
-      optionTable = []
-      for option , value in app['opt'].items():
-        optionTable.append([option , value["val"]])
-      message = message + tabulate(optionTable, headers=optionHeaders, tablefmt="pretty",  colalign=("left","left")) + '\n'
-    return message
+      headTable.append([app['name'], app['id'], app['type']])
+    return tabulate(headTable, headers=headHeaders, tablefmt="pretty", colalign=("left","left", "left",))
   else:
     return output['msg']
