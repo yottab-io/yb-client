@@ -30,18 +30,21 @@ def workspaceList(output):
     return output['msg']
 
 def workspaceDetail(output):
+  i = 0
   if output['type'] == 'table':
     wTable = []
     aTable = []
-    wHeaders = ['worskspace_name', 'state', 'plan']
+    wHeaders = ['worskspace_name', 'state', 'plan', 'app_name', 'app_id']
     aHeaders = ['app_name', 'id']
     for workspace in output['data']:
-      wTable.append([ workspace['name'], workspace['state'], workspace['plan']])
       for app in workspace['apps']:
-        aTable.append([app['name'], app['id']])
+        if i == 0:
+          i += 1
+          wTable.append([ workspace['name'], workspace['state'], workspace['plan'],app['name'], app['id']])
+        else:
+          wTable.append(["-", "-", "-",app['name'], app['id']])
     wTable = tabulate(wTable, headers=wHeaders, tablefmt="pretty")
-    aTable = tabulate(aTable, headers=aHeaders, tablefmt="pretty")
-    return '%s \n %s' % (wTable, aTable)
+    return wTable
   else:
     return output['msg']
 
