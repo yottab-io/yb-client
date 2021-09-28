@@ -1,13 +1,13 @@
-# Yottab-CLI
+# Yottab client
 
-  Yottab-CLI is a command-line interface to interact with the [Yottab](https://yottab.io) server to create and manage workspaces and applications.
+  Yottab client is a command-line interface to interact with the [Yottab](https://yottab.io) server to create and manage workspaces and applications.
   ## Installation 
-   Use the package manager pip to install Yottab-CLI like below:
+   Use the package manager pip to install Yottab client like below:
     
-   `$ pip install yottab-cli`
+   `$ pip install yb-client`
     
   ## Usage
-   There are four main commands in Yottab-CLI. each one has its specific subcommands:
+   There are four main commands in Yottab client. each one has its specific subcommands:
     
    - [user](#user) subcommands are used to [register](#register-your-account), [log in](#login-to-your-account) to, and [log out](#logout-of-your-account) of your account.
    - [workspace](#workspace) subcommands are used to [create](#create-a-workspace), [stop](#stop-a-workspace), [restart](#restart-a-workspace) and [delete](#delete-a-workspace) a workspace. You can also view the details of a workspace and the list of workspaces using the [detail](#workspace-details) and [list](#workspaces-list) subcommands, respectively.
