@@ -3,3 +3,4 @@ venv
 trash
 config.txt
 yb_client.egg-info
+dist
