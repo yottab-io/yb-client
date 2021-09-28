@@ -7,7 +7,7 @@ setup(
   description = 'Yottab-Client is a command-line interface to interact with the Yottab server to create and manage workspaces and applications.',
   author = 'Yottab',
   author_email = 'admin@yottab.io',
-  py_modules=['yb_client','yb_client.commands'],
+  py_modules=['yb_client','yb_client.commands', 'yb_client.file', 'yb_client.api', 'yb_client.output'],
   keywords = ['yottab', 'yottab client', 'command-line'],
   url = 'https://github.com/yottab-io/yb-client',
   download_url = "https://github.com/yottab-io/yb-client/archive/refs/tags/v1.0.tar.gz",
