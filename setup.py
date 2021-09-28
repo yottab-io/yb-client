@@ -1,11 +1,15 @@
 from setuptools import setup
 
+with open('README.md') as f:
+    long_description = f.read()
+  
 setup(
   name = 'yb-client',
   version = '1.0.2',
   license = 'GNU General Public License v3.0',
   description = 'Yottab-Client is a command-line interface to interact with the Yottab server to create and manage workspaces and applications.',
-  long_description_content_type="README.md",
+  long_description = long_description,
+  long_description_content_type = 'text/markdown',
   author = 'Yottab',
   author_email = 'admin@yottab.io',
   py_modules=['yb_client','yb_client.commands', 'yb_client.file', 'yb_client.api', 'yb_client.output'],
