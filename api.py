@@ -1,6 +1,4 @@
 import requests as request
-import json
-from result import result
 from file import FileManagment
 
 url = 'http://dezh.yottab.io/v1'
@@ -150,9 +148,9 @@ def deleteWorkspace(token, user, workspace):
 
 
 def updateWorkspace(token, user, workspace):
-  response = request.post(url + '/server/setting/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
-  response = result(response)
-  return response
+  #response = request.post(url + '/server/setting/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
+  #return response
+  pass
 
 
 def createApp(token, user, workspace, productid, name):
@@ -239,6 +237,6 @@ def productList(token, user, workspace):
     return {'type': 'msg', 'msg': message}
 
 def deleteServer(token, user, workspace):
-  response = request.post(url + '/server/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
-  response = result(response)
-  return response
+  #response = request.post(url + '/server/'+ user + '/' + workspace + '?format=json', headers={"X-Request-Token": '%s' % token})
+  #return response
+  pass
