@@ -2,4 +2,4 @@ __pycache__
 venv
 trash
 config.txt
-YottabCLI.egg-info
+yb_client.egg-info
