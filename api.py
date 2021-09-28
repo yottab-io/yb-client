@@ -37,7 +37,6 @@ def login(user, password):
 
 def logout(token):
   message = ''
-  print(token)
   response = request.get(url + '/user/token?format=json', headers={"X-Request-Token": '%s' % token})
   if response.status_code == 200:
     response = response.json()
