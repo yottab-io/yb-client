@@ -2,15 +2,16 @@ from setuptools import setup
 
 setup(
   name = 'yb-client',
-  version = '1.0.1',
+  version = '1.0.2',
   license = 'GNU General Public License v3.0',
   description = 'Yottab-Client is a command-line interface to interact with the Yottab server to create and manage workspaces and applications.',
+  long_description_content_type="README.md",
   author = 'Yottab',
   author_email = 'admin@yottab.io',
   py_modules=['yb_client','yb_client.commands', 'yb_client.file', 'yb_client.api', 'yb_client.output'],
   keywords = ['yottab', 'yottab client', 'command-line'],
   url = 'https://github.com/yottab-io/yb-client',
-  download_url = "https://github.com/yottab-io/yb-client/archive/refs/tags/v1.0.1.tar.gz",
+  download_url = "https://github.com/yottab-io/yb-client/archive/refs/tags/v1.0.2.tar.gz",
   install_requires=[
     'Click',
     'tabulate',
