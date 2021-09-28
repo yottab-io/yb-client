@@ -5,7 +5,7 @@ with open('README.md') as f:
   
 setup(
   name = 'yb-client',
-  version = '1.0.4',
+  version = '1.0.3',
   license = 'GNU General Public License v3.0',
   description = 'Yottab-Client is a command-line interface to interact with the Yottab server to create and manage workspaces and applications.',
   long_description = long_description,
@@ -15,7 +15,7 @@ setup(
   py_modules=['yb_client','yb_client.commands', 'yb_client.file', 'yb_client.api', 'yb_client.output'],
   keywords = ['yottab', 'yottab client', 'command-line'],
   url = 'https://github.com/yottab-io/yb-client',
-  download_url = "https://github.com/yottab-io/yb-client/archive/refs/tags/v1.0.4.tar.gz",
+  download_url = "https://github.com/yottab-io/yb-client/archive/refs/tags/v1.0.3.tar.gz",
   install_requires=[
     'Click',
     'tabulate',
