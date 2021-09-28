@@ -1,5 +1,5 @@
 import requests as request
-from file import FileManagment
+from yb_client.file import FileManagment
 
 url = 'http://dezh.yottab.io/v1'
 

@@ -1,7 +1,7 @@
-from file import FileManagment
+from yb_client.file import FileManagment
+import yb_client.api as api
 import click
-import api
-import output
+import yb_client.output as output
 
 @click.group()
 def cli():
